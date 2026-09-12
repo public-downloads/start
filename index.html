@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects</title>
+<meta name="description" content="Every project in one place: web apps, editors, Minecraft mods, Windows tools and mobile apps, each in its own repository.">
+<meta name="theme-color" content="#0d1016">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23161a23'/%3E%3Crect x='7' y='7' width='8' height='8' rx='2' fill='%236fb4ff'/%3E%3Crect x='17' y='7' width='8' height='8' rx='2' fill='%2355d6a0'/%3E%3Crect x='7' y='17' width='8' height='8' rx='2' fill='%23f2c55c'/%3E%3Crect x='17' y='17' width='8' height='8' rx='2' fill='%23ff8fb1'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+	<div class="wrap">
+		<a class="brand" id="brand" href="./">Projects</a>
+		<nav>
+			<a id="profile" href="https://github.com/" rel="me">GitHub &nearr;</a>
+		</nav>
+	</div>
+</header>
+
+<section class="hero">
+	<div class="wrap">
+		<h1 id="title">Projects</h1>
+		<p class="tagline" id="tagline">Things I have built.</p>
+		<p class="stats" id="stats"></p>
+
+		<!-- Shown only while no GitHub username can be worked out. -->
+		<div class="notice" id="setup" hidden>
+			<strong>No GitHub username yet.</strong>
+			Set <code>user</code> in <code>projects.js</code> and the Source, Download and Open
+			buttons start working. Once this page is served from <code>&lt;you&gt;.github.io</code>
+			it reads the name from the address by itself.
+		</div>
+	</div>
+</section>
+
+<div class="toolbar">
+	<div class="wrap">
+		<div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+		<label class="search">
+			<span class="sr-only">Search projects</span>
+			<input id="search" type="search" placeholder="Search…" autocomplete="off" spellcheck="false">
+			<kbd aria-hidden="true">/</kbd>
+		</label>
+	</div>
+</div>
+
+<main class="wrap" id="hub">
+	<noscript>
+		<p class="empty">This page builds its list with JavaScript. With it off, the projects are
+		all on <a href="https://github.com/">GitHub</a> under the same account as this site.</p>
+	</noscript>
+</main>
+
+<footer>
+	<div class="wrap">
+		<p>
+			Plain HTML, CSS and JavaScript, no build step, hosted on GitHub Pages.
+			<a id="hub-source" href="https://github.com/">Source for this page</a>.
+		</p>
+		<p class="disclaimer">
+			The Minecraft mods are not official Minecraft products and are not approved by or
+			associated with Mojang or Microsoft.
+		</p>
+	</div>
+</footer>
+
+<script src="projects.js"></script>
+<script src="hub.js"></script>
+</body>
+</html>
