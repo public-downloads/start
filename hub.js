@@ -21,10 +21,32 @@
 
 	const user = detectUser();
 
+	// The repository this page is served from: configured, or read from the
+	// first path segment of a project site (<user>.github.io/<repo>/), or the
+	// user site itself when served from the root.
+	function detectHubRepo() {
+		if (HUB.repo && HUB.repo.trim()) return HUB.repo.trim();
+		if (/\.github\.io$/i.test(location.hostname)) {
+			const seg = location.pathname.split("/")[1];
+			if (seg && !/\.[a-z0-9]+$/i.test(seg)) return seg;
+		}
+		return user ? `${user}.github.io` : "";
+	}
+
 	/* ---------------------------------------------------------------- urls */
 
 	const repoUrl = (repo) => (user ? `https://github.com/${user}/${repo}` : null);
-	const releaseUrl = (repo) => (user ? `${repoUrl(repo)}/releases/latest` : null);
+
+	// true → the latest GitHub release; a file name → that file from main.
+	function downloadUrl(p) {
+		if (!p.download || !user) return null;
+		if (typeof p.download === "string") {
+			return `${repoUrl(p.repo)}/raw/main/${p.download.replace(/^\/+/, "")}`;
+		}
+		return `${repoUrl(p.repo)}/releases/latest`;
+	}
+
+	const pagesUrl = (path) => (user ? `https://${user}.github.io/${path.replace(/^\/+/, "")}` : null);
 
 	function siteUrl(p) {
 		if (!p.site) return null;
@@ -90,18 +112,20 @@
 	function card(p) {
 		const soon = p.status === "soon";
 		const site = siteUrl(p);
-		const download = p.download ? releaseUrl(p.repo) : null;
+		const download = downloadUrl(p);
 		const source = repoUrl(p.repo);
 
 		// The most useful thing a visitor can do gets the filled-in button.
 		const buttons = [];
 		if (p.site) buttons.push(button(p.open || "Open", site, { primary: true, gh: true }));
 		if (p.download) buttons.push(button("Download", download, { primary: !p.site, gh: true }));
-		buttons.push(button("Source", source, { primary: !p.site && !p.download, gh: true }));
+		buttons.push(button("GitHub", source, { primary: !p.site && !p.download, gh: true }));
 		for (const l of p.links || []) {
-			if (!l.label || !(l.href || l.path)) continue;
-			const href = l.href || (source ? `${source}/${l.path.replace(/^\/+/, "")}` : null);
-			buttons.push(button(l.label, href, { gh: !!l.path }));
+			if (!l.label || !(l.href || l.path || l.page)) continue;
+			let href = l.href || null;
+			if (l.path) href = source ? `${source}/${l.path.replace(/^\/+/, "")}` : null;
+			if (l.page) href = pagesUrl(l.page);
+			buttons.push(button(l.label, href, { gh: !l.href }));
 		}
 
 		const search = [p.name, p.tagline, p.description, p.note, ...(p.tags || []), categoryName(p.category)]
@@ -233,7 +257,8 @@
 
 		const footerSource = document.getElementById("hub-source");
 		if (footerSource) {
-			if (user) footerSource.href = `https://github.com/${user}/${user}.github.io`;
+			const hubRepo = detectHubRepo();
+			if (user && hubRepo) footerSource.href = `https://github.com/${user}/${hubRepo}`;
 			else footerSource.removeAttribute("href");
 		}
 
@@ -397,7 +422,8 @@
 	function resolveAnchors() {
 		for (const a of document.querySelectorAll("a[data-repo]")) {
 			const kind = a.dataset.kind || "source";
-			const href = kind === "release" ? releaseUrl(a.dataset.repo) : repoUrl(a.dataset.repo);
+			const repo = repoUrl(a.dataset.repo);
+			const href = repo && kind === "release" ? `${repo}/releases/latest` : repo;
 			if (href) {
 				a.href = href;
 			} else {

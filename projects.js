@@ -16,20 +16,27 @@
                   "app/" → a path inside that site (for a page that is not index.html)
                   "https://…" → a full address, used as-is
      open         Label for the site button. Defaults to "Open".
-     download     true → a "Download" button pointing at the latest release.
+     download     true → a "Download" button pointing at the latest GitHub release
+                  "file.jar" → a download of that file from the repository's main branch
      status       "early" (works, barely tested) · "wip" (being built)
                   · "soon" (not published yet, links hidden). Omit when it is done.
      note         One short caveat under the description, e.g. "Singleplayer only".
-     links        Extra buttons. { label, href } for any address, or
-                  { label, path } for a path inside the repository on GitHub.
+     links        Extra buttons. { label, href } for any address,
+                  { label, path } for a path inside the repository on GitHub, or
+                  { label, page } for a page on one of your other Pages sites,
+                  e.g. "minecraft-mods/#mason" → https://<user>.github.io/minecraft-mods/#mason
      folder       Where it lives on this machine. For you; never shown.
 */
 
 window.HUB = {
-	// Your GitHub username. Leave it empty and the hub reads it from the
-	// address when served from <user>.github.io. Fill it in to make the links
-	// work when you open index.html from disk, or from a custom domain.
-	user: "",
+	// Your GitHub username. When served from <user>.github.io the hub reads it
+	// from the address anyway; setting it here makes the links work when you
+	// open index.html from disk.
+	user: "public-downloads",
+
+	// The repository this hub lives in, for the "Source for this page" link.
+	// Leave empty if the hub is in <user>.github.io (served from the root).
+	repo: "start",
 
 	title: "Projects",
 	tagline:
@@ -152,7 +159,7 @@ window.HUB = {
 				"in its own window; open several and they line up in one window above the outline. " +
 				"Save writes straight back to the file you opened.",
 			tags: ["Editor", "Markdown", "Single file", "Windows"],
-			site: "src/markdown-studio.html",
+			site: "markdown-studio.html",
 			folder: "Markdown-Studio",
 		},
 		{
@@ -194,10 +201,12 @@ window.HUB = {
 				"can frame the shot afterwards, grade the picture with 37 keyframable effects, and " +
 				"export the result as a PNG sequence or straight into ffmpeg. Client-side only.",
 			tags: ["Forge 1.8.9", "Java", "GPL-3.0"],
-			download: true,
+			// The jar is committed to the repository. Once you publish it as a
+			// GitHub Release instead, change this to `true` and never touch it again.
+			download: "cineditor-1.0.24.jar",
 			status: "early",
-			note: "Early version with medicore performance. Requires Forge 11.15.1.2318+ for 1.8.9.",
-			links: [{ label: "Details", href: "mods.html#cineditor" }],
+			note: "Early and largely untested. Requires Forge 11.15.1.2318+ for 1.8.9.",
+			links: [{ label: "Details", page: "minecraft-mods/#cineditor" }],
 			folder: "Cinematic-Editor-1.8.9",
 		},
 		{
@@ -210,10 +219,10 @@ window.HUB = {
 				"brushes, a clipboard with rotation, portable schematics and 24 steps of undo. " +
 				"Singleplayer only: a client mod cannot edit a server's world.",
 			tags: ["Forge 1.8.9", "Java", "GPL-3.0"],
-			download: true,
+			download: "mason-0.8.0.jar",
 			status: "early",
-			note: "Early version with decent performance. Back up any world you care about.",
-			links: [{ label: "Details", href: "mods.html#mason" }],
+			note: "Early and largely untested. Back up any world you care about.",
+			links: [{ label: "Details", page: "minecraft-mods/#mason" }],
 			folder: "Mason-1.8.9",
 		},
 		{
@@ -226,7 +235,7 @@ window.HUB = {
 				"landed in time, and floats the range to each player above their nametag. Every " +
 				"reading comes from the client's own copy of the fight; nothing is sent to the server.",
 			tags: ["Forge 1.8.9", "Java"],
-			download: true,
+			download: "pvptrainer-1.0.0.jar",
 			folder: "PvP-Trainer-1.8.9",
 		},
 		{
@@ -239,7 +248,7 @@ window.HUB = {
 				"the server's real command tree on every keystroke. A data pack editor with starter " +
 				"templates, a visual mode for functions, recipes and tags, and export to .zip.",
 			tags: ["Fabric", "Minecraft 26.1", "Java", "MIT"],
-			download: true,
+			download: "commandstudio-1.0.0.jar",
 			note: "Requires Fabric Loader 0.19.3+, Fabric API and Java 25+.",
 			folder: "Minecraft-Command-Creation",
 		},
@@ -314,7 +323,7 @@ window.HUB = {
 		},
 		{
 			name: "CoC Companion",
-			repo: "coc-strategy-guide",
+			repo: "coc-guide",
 			category: "mobile",
 			tagline: "Attack guides and a hero equipment simulator for Clash of Clans.",
 			description:
@@ -327,7 +336,7 @@ window.HUB = {
 		},
 		{
 			name: "Folder Player",
-			repo: "folder-player",
+			repo: "mp3-player",
 			category: "mobile",
 			tagline: "A one-file music player for the phone.",
 			description:

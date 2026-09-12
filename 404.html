@@ -5,20 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Not found</title>
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="/style.css">
+<style>
+	/* Self-contained: GitHub serves this page at any depth, so it cannot rely
+	   on a relative stylesheet, and an absolute one would need the repo name. */
+	body {
+		margin: 0;
+		background: #0d1016;
+		color: #e8ebf0;
+		font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	}
+	.wrap { max-width: 1100px; margin: 0 auto; padding: 64px 24px; }
+	h1 { margin: 0 0 12px; font-size: clamp(34px, 6vw, 52px); line-height: 1.1; letter-spacing: -0.02em; }
+	p { margin: 0 0 14px; max-width: 620px; color: #8b94a6; font-size: 18px; }
+	a { color: #6fb4ff; }
+</style>
 </head>
 <body>
 
-<section class="hero">
-	<div class="wrap">
-		<h1>Nothing here</h1>
-		<p class="tagline">
-			That address does not exist on this site. If it was a project, its repository may have
-			been renamed, or it lives somewhere else now.
-		</p>
-		<p class="stats"><a href="/">&larr; All projects</a></p>
-	</div>
-</section>
+<div class="wrap">
+	<h1>Nothing here</h1>
+	<p>
+		That address does not exist on this site. If it was a project, its repository may have
+		been renamed, or it lives somewhere else now.
+	</p>
+	<p><a id="home" href="./">&larr; All projects</a></p>
+</div>
 
+<script>
+	// On a project site (<user>.github.io/<repo>/) every missing address is
+	// below the repo folder, so the first path segment is the way home.
+	// On a user site the hub is at the root.
+	(function () {
+		var seg = location.pathname.split("/")[1];
+		var isProjectSite = /\.github\.io$/i.test(location.hostname) && seg && !/\.[a-z0-9]+$/i.test(seg);
+		document.getElementById("home").href = isProjectSite ? "/" + seg + "/" : "/";
+	})();
+</script>
 </body>
 </html>
