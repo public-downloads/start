@@ -323,6 +323,7 @@ window.HUB = {
 			tags: ["Swift", "iOS", "AVFoundation", "Metal"],
 			links: [{ label: "Builds", path: "actions" }],
 			note: "Unsigned .ipa from the Actions builds; sign and install with AltServer.",
+			site: true,
 			folder: "Camera App",
 		},
 		{
