@@ -348,7 +348,7 @@ window.HUB = {
 				"Pick your tracks and they queue up in order, with seek, shuffle and a now-playing " +
 				"bar. Nothing uploads; the files stay on your phone. One HTML file, made for Safari.",
 			tags: ["Single file", "Audio"],
-			site: "player.html",
+			site: true,
 			folder: "Mobile Apps/Mp3 player",
 		},
 	],
